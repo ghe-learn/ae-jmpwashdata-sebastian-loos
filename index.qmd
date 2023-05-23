@@ -5,7 +5,7 @@ format: html
 
 # R Package jmpwashdata
 
-For this analysis we will use the jmpwashdata R Package. The package contains all data compiled by the WHO/UNICEF Joint Monitoring Programme (JMP).
+For this analysis we will use the **jmpwashdata** R Package. The package contains all data compiled by the [WHO/UNICEF Joint Monitoring Programme (JMP)](https://washdata.org).
 
 ```{r}
 #| label: load-packages
@@ -27,7 +27,7 @@ income_groups_df <- read_rds("data/wb-income-groups.rds")
 
 ```
 
-# Basic Sanitation & GDP 
+# Basic Sanitation & GDP
 
 Data for the most recent year, basic sanitation in urban areas, calculate urban population, and join income groups.
 
