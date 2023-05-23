@@ -1,11 +1,20 @@
 ---
 title: "Hello, Quarto"
-format: html
+format: revealjs
+execute: 
+  echo: true
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+bibliography: references.bib
 ---
 
-# R Package jmpwashdata
+# Data
 
-For this analysis we will use the **jmpwashdata** R Package. The package contains all data compiled by the [WHO/UNICEF Joint Monitoring Programme (JMP)](https://washdata.org).
+## R Package jmpwashdata
+
+For this analysis we will use the **jmpwashdata** R Package by @jmpwashdata. The package contains all data compiled by the [WHO/UNICEF Joint Monitoring Programme (JMP)](https://washdata.org).
 
 ```{r}
 #| label: load-packages
@@ -17,17 +26,26 @@ library(gt)
 library(ggthemes)
 ```
 
-# World Bank income groups
+## World Bank income groups
 
 We will also use the World Bank income classification for 218 countries. This data was downloaded and stored as an XLSX file using an R script in `src`.
 
 ```{r}
+#|echo: false
 
 income_groups_df <- read_rds("data/wb-income-groups.rds")
 
 ```
 
-# Basic Sanitation & GDP
+```{r}
+income_groups_df %>% 
+  count(income_group) %>% 
+  gt()
+```
+
+# Data Wrangling
+
+## Basic Sanitation & GDP
 
 Data for the most recent year, basic sanitation in urban areas, calculate urban population, and join income groups.
 
@@ -49,7 +67,7 @@ jmp_wld_sanitation_gdp_income <- jmp_wld_sanitation |>
 
 ```
 
-# Basic Sanitation Uganda
+## Basic Sanitation Uganda
 
 ```{r}
 
@@ -83,14 +101,23 @@ jmp_uga_sanitation <- jmp_wld_sanitation |>
   # fct_sanitation vector
   mutate(indicator = factor(indicator, level = fct_sanitation))
 
+
 ```
 
-# Income
+## Photo of a toilet
 
-Below is a box- and jitterplot of countries with percentages of populations with access to basic sanitation in 2020 grouped by income classifications.
+![This is a foto of a toilet.](img/26473744850_32578ea50b_w.jpg)
+
+# Results
+
+## Income {.smaller}
+
+@fig-san-bas-u-income is a box- and jitterplot of countries with percentages of populations with access to basic sanitation in 2020 grouped by income classifications.
 
 ```{r}
-#| label: san-bas-u-income
+#| label: fig-san-bas-u-income
+#| fig-cap: Access to sanitation (urban) in 2020 by income calssifications
+#| output-location: slide
 #| fig-alt: |
 #|   A boxplot with jittered points overlaid. The x-axis represents income 
 #|   groups, while the y-axis represents the percentage of the population with 
@@ -109,12 +136,13 @@ ggplot(data = jmp_wld_sanitation_gdp_income,
   theme(legend.position = "none")
 ```
 
-# Regions
+## Regions
 
-The table below shows urban sanitation indicators for global regions in 2020.
+@tbl-reg-sanitation shows urban sanitation indicators for global regions in 2020.
 
 ```{r}
-#| label: reg-sanitation
+#| label: tbl-reg-sanitation
+#| tbl-cap: Urban sanitation indicators for global regions.
 
 jmp_reg_sanitation |> 
   filter(year == max(year)) |> 
@@ -134,12 +162,12 @@ jmp_reg_sanitation |>
 
 ```
 
-# Uganda
+## Uganda
 
-The figure below shows the sanitation ladder for Uganda.
+@fig-san-uga shows the sanitation ladder for Uganda.
 
 ```{r}
-#| label: san-uga
+#| label: fig-san-uga
 #| fig-cap: Sanitation indicators for Uganda on a national level.
 
 ggplot(data = jmp_uga_sanitation, 
@@ -155,3 +183,9 @@ ggplot(data = jmp_uga_sanitation,
   theme(panel.grid.minor = element_blank()) 
 
 ```
+
+## They told you so
+
+@kalina2020 did.
+
+# References
